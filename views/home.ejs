@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <style>
+            h1{
+                color: coral;
+                font-size: 90px;
+            }
+            body{
+                background-color: darkslateblue ;
+            }
+        </style>
+         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="/css/home.css">
+    </head>
+    <body>
+        <h1>this is Home page</h1>
+  
+            <div>
+            <ul>
+                <% for(let i of contact_list) {%>
+                    <div>
+                    <li>
+                        <p><%=i.name%></p>
+                        <p><%=i.phone%></p>
+                    </li>
+                </div>
+                <div>
+                    <a href="/delete-contact/?phone=<%= i.phone%>&name=<%=i.name%>">
+                        <i class="fas fa-window-close"></i>
+                    </a>
+                </div>
+                    <% } %>
+            </ul>
+        </div>
+        <form action="/create-contact" method="post">
+            <input type="text" name="name" placeholder="Enter Your Name" required>
+            <input type="number" name="phone" placeholder="Enter Your Number" required>
+            <button type="submit">Add Contact</button>
+        </form>
+        <script src="/js/home.js"></script>
+    </body>
+
+</html>
