@@ -6,6 +6,7 @@ const port=8000;
 // use express router
 app.use('/',require('./routes'));
 router.use('/users',require('./routes/users'));
+router.use('/password',require('./routes/password'));
 app.listen(port,function(err){
     if(err){
         console.log( `error: ${err}`);
