@@ -20,12 +20,24 @@ var contactList=[
         phone:'8221820300'
     }
 ];
-app.get('/pratice',function(req,res){
-    return res.render('pratice',{
-        title:'pratice bar'
-    });
-});
+// app.get('/contact',function(req,res){
+//     return res.render('pratice',{
+//         title:'contact bar'
+//     });
+// });
 app.get('/',function(req,res){
+    Contact.find({},function(err,contacts){
+        if(err){
+            console.log("error in fetching contacts from db");
+            return;
+        }
+        return res.render('contact',{
+            title:"Contact List",
+            contact_list:contacts
+        })
+    })
+});
+app.get('/contact',function(req,res){
     Contact.find({},function(err,contacts){
         if(err){
             console.log("error in fetching contacts from db");
@@ -36,11 +48,12 @@ app.get('/',function(req,res){
             contact_list:contacts
         })
     })
-});
+    });
 app.post('/create-contact',function(req,res){
     Contact.create({
         name:req.body.name,
-        phone:req.body.phone
+        phone:req.body.phone,
+        email:req.body.email
     },function(err,newContact){
         if(err){
             console.log('Error in creating a contact!');
@@ -64,10 +77,7 @@ app.get('/delete-contact/',function(req,res){
         if(err){
             console.log('error in deleting the object ');
             return;
-        }
-        
+        }   
         return res.redirect('back');
     })
-  
-  
 });
