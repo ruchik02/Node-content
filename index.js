@@ -20,11 +20,6 @@ var contactList=[
         phone:'8221820300'
     }
 ];
-// app.get('/contact',function(req,res){
-//     return res.render('pratice',{
-//         title:'contact bar'
-//     });
-// });
 app.get('/',function(req,res){
     Contact.find({},function(err,contacts){
         if(err){
