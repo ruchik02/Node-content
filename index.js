@@ -26,7 +26,7 @@ app.get('/',function(req,res){
             console.log("error in fetching contacts from db");
             return;
         }
-        return res.render('contact',{
+        return res.render('home',{
             title:"Contact List",
             contact_list:contacts
         })
@@ -38,7 +38,7 @@ app.get('/contact',function(req,res){
             console.log("error in fetching contacts from db");
             return;
         }
-        return res.render('home',{
+        return res.render('contact',{
             title:"Contact List",
             contact_list:contacts
         })
