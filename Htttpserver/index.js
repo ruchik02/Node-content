@@ -10,7 +10,6 @@ const server=http.createServer((req,res)=>{
         res.writeHead(404,{"Content-type":"text/html"});
         res.end("<h1>page not found</h1>");
     }
- 
 
 })
 server.listen(8000,"127.0.0.1",()=>{
