@@ -1,78 +1,32 @@
-const express=require('express');
-const path=require('path');
-const port=8000;
-const db=require('./config/mongoose');
-const Contact=require('./models/contact');
-const app=express();
-app.set('view engine','ejs');
-app.set('views',path.join(__dirname,'views'));
+const express = require('express');
+const cookieParser=require('cookie-parser');
+const app = express();
+const port = 8000;
+const expressLayouts = require('express-ejs-layouts');
+const db = require('./config/mongoose');
+
 app.use(express.urlencoded());
-app.use(express.static('assets'));
+app.use(cookieParser());
+app.use(express.static('./assets'));
+
+app.use(expressLayouts);
+// extract style and scripts from sub pages into the layout
+app.set('layout extractStyles', true);
+app.set('layout extractScripts', true);
 
 
-var contactList=[
-    {
-        name:'ruchika',
-        phone: '9588762856'
-    },
-    {
-        name:'Kirti',
-        phone:'8221820300'
+// use express router
+app.use('/', require('./routes'));
+
+// set up the view engine
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
+
+app.listen(port, function(err){
+    if (err){
+        console.log(`Error in running the server: ${err}`);
     }
-];
-app.get('/',function(req,res){
-    Contact.find({},function(err,contacts){
-        if(err){
-            console.log("error in fetching contacts from db");
-            return;
-        }
-        return res.render('home',{
-            title:"Contact List",
-            contact_list:contacts
-        })
-    })
-});
-app.get('/contact',function(req,res){
-    Contact.find({},function(err,contacts){
-        if(err){
-            console.log("error in fetching contacts from db");
-            return;
-        }
-        return res.render('contact',{
-            title:"Contact List",
-            contact_list:contacts
-        })
-    })
-    });
-app.post('/create-contact',function(req,res){
-    Contact.create({
-        name:req.body.name,
-        phone:req.body.phone,
-        email:req.body.email
-    },function(err,newContact){
-        if(err){
-            console.log('Error in creating a contact!');
-            return;
-        }
-        console.log('***********',newContact);
-        return res.redirect('back');
-    })
-})
 
-app.listen(port,function(err){
-    if(err){
-        console.log("Error in running server");
-    }
-    console.log("Yup!My server is running on port",port);
-})
-app.get('/delete-contact/',function(req,res){
-    console.log("req query ",req.query);
-    let id=req.query.id
-    Contact.findOneAndDelete(id,function(err){
-        if(err){
-            console.log('error in deleting the object ');
-            return;
-        }   
-        return res.redirect('back');
-    })
+    console.log(`Server is running on port: ${port}`);
 });
